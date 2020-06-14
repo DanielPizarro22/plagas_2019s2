@@ -1,0 +1,50 @@
+import elementos.*
+import Barrios.*
+
+test "Elementos son buenos o no." {
+	
+	/* HOGAR EN BUEN ESTADO */
+	assert.that(new Hogar(nivelDeMugre = 3, confort = 10).esBueno())
+	/* HOGAR EN MAL ESTADO */
+	assert.notThat(new Hogar(nivelDeMugre = 6, confort = 10).esBueno())
+	
+	/* HUERTA EN BUEN ESTADO */
+	assert.that(new Huerta(capacidadDeProduccion = 50, nivel = 20).esBueno())
+	/* HUERTA EN MAL ESTADO */
+	assert.notThat(new Huerta(capacidadDeProduccion = 30, nivel = 40).esBueno())
+	
+	/* MASCOTA CON BUENA SALUD */
+	assert.that(new Mascota(nivelDeSalud = 300).esBueno())
+	/* MASCOTA CON MALA SALUD */
+	assert.notThat(new Mascota(nivelDeSalud = 130).esBueno())
+}
+
+test "Barrio con 7 elementos"{
+	
+									/* 	BARRIO COPADO: 5 ELEMENTOS BUENOS Y 2 MALOS*/
+	const hurlingam = new Barrio()
+	
+	hurlingam.elementosDelBarrio([new Hogar(nivelDeMugre = 3, confort = 10),
+									  new Huerta(capacidadDeProduccion = 50, nivel = 20),
+									    new Mascota(nivelDeSalud = 300),
+							   	   		   new Mascota(nivelDeSalud = 270),
+											  new Huerta(capacidadDeProduccion = 60, nivel = 28),
+ /* DESDE ACA PARA ABAJO NO SON BUENOS -->*/      new Mascota(nivelDeSalud = 130),
+ 									 				new Hogar(nivelDeMugre = 6, confort = 10)])		  
+								  
+								  
+								  
+	assert.that(hurlingam.esCopado())		
+	
+							      /* BARRIO NO ES COPADO: 4 ELEMENTOS MALOS Y 3 BUENOS */
+	const moron = new Barrio()
+	
+	moron.elementosDelBarrio([new Hogar(nivelDeMugre = 6, confort = 10),
+										new Mascota(nivelDeSalud = 130),
+											 new Huerta(capacidadDeProduccion = 30, nivel = 40),
+												 new Mascota(nivelDeSalud = 30),
+ /* DESDE ACA PARA ABAJO SON BUENOS -->*/	     	new Hogar(nivelDeMugre = 3, confort = 10),						  
+							 						   new Huerta(capacidadDeProduccion = 50, nivel = 20),
+														  new Mascota(nivelDeSalud = 300)])	
+	assert.notThat(moron.esCopado())				 												
+}

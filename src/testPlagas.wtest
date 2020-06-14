@@ -1,0 +1,53 @@
+import Plagas.*
+import elementos.*
+
+test "Efectos de un ataque sobre los elementos" {
+
+	/* ATAQUE DE UNA PLAGA A UN HOGAR */
+	
+	const unHogar = new Hogar(nivelDeMugre = 4, confort = 9)
+	unHogar.recibirAtaqueDe(new PlagaDeCucarachas(poblacion = 30, pesoPromedio = 8)) 
+	
+	/* Cuando ataca, la poblacion se incrementa un 10% , pasaria a 33. Luego cuando recibe un ataque
+	 * el nivel de daño es la mitad (16,5) y a eso se le suma el nivel de mugre  (4) dando 20.5 el nuevo nivel
+	 */	 
+		
+	assert.equals(20.5, unHogar.nivelDeMugre())
+	
+	
+	/* ATAQUE DE UNA PLAGA A UNA HUERTA */
+	
+	// PLAGA QUE TRASMITE ENFERMEDAD 
+	
+	const unaHuerta = new Huerta(capacidadDeProduccion = 50)
+	unaHuerta.recibirAtaqueDe(new PlagaDeGarrapatas(poblacion = 80)) // pob 96  50 pasa a 40  19.2
+
+	/* En el caso de las garrapatas, la poblacion aumenta un 20% , en este test pasaria de 80 a 96.
+	 * Cuando es atacada, la capacidad de produccion baja 10 (porque trasmite enfermedad) asi que 
+	 * quedaria en 40 a eso se le resta  19.2 que es el nivel de daño segun el nuevo numero de poblacion (96 * 2 = 192)
+	 * Y el resultado final seria 20.8
+	 */
+
+	assert.equals(20.8, unaHuerta.capacidadDeProduccion())
+	
+	
+	//PLAGA QUE NO TRASMITE ENFERMEDAD
+	const otraHuerta = new Huerta(capacidadDeProduccion = 50)
+	otraHuerta.recibirAtaqueDe(new PlagaDeMosquitos(poblacion = 25))  //50 - 2.75
+	
+	assert.equals(47.25, otraHuerta.capacidadDeProduccion())
+	
+	
+	/* ATAQUE DE UNA PLAGA A UNA MASCOTA */
+	
+	//PLAGA QUE TRASMITE ENFERMEDAD
+	const unPerrito = new Mascota(nivelDeSalud = 350)
+	unPerrito.recibirAtaqueDe(new PlagaDeGarrapatas(poblacion = 15)) // 18 * 2  36 
+ 	assert.equals(314, unPerrito.nivelDeSalud()) // 
+	
+	//PLAGA QUE NO TRASMITE ENFERMEDAD
+	
+	const unGatito = new Mascota(nivelDeSalud = 260)
+	unGatito.recibirAtaqueDe( new PlagaDePulgas(poblacion = 5))
+	assert.equals(260, unGatito.nivelDeSalud())
+}
